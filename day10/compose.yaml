@@ -1,0 +1,20 @@
+services:
+  app:
+    image: docker.io/traefik/whoami:v1.10.2
+
+  web:
+    image: docker.io/library/nginx:1.27-alpine
+    ports:
+      - "8080:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro,Z
+    depends_on:
+      - app
+
+  cache:
+    image: docker.io/library/redis:7-alpine
+    volumes:
+      - redisdata:/data
+
+volumes:
+  redisdata:
